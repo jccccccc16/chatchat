@@ -1,7 +1,7 @@
 package com.cjc.chatchat.controller;
 
+import com.cjc.chatchat.config.OSSProperties;
 import com.cjc.chatchat.constant.ChatChatConstant;
-import com.cjc.chatchat.entity.UserLoginVO;
 import com.cjc.chatchat.entity.UserPO;
 import com.cjc.chatchat.entity.UserRegisterVO;
 import com.cjc.chatchat.service.api.UserService;
@@ -12,12 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,6 +30,11 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private OSSProperties ossProperties;
+
+
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -112,6 +116,29 @@ public class UserController {
             logger.warn("注册失败");
             return ResultEntity.failed(ChatChatConstant.MESSAGE_SAVE_USER_FAILED);
         }
+    }
+
+
+    @RequestMapping("/user/upload/headerPicture.json")
+    @ResponseBody
+    public ResultEntity<String> uploadHeaderPicture(
+            @RequestParam("headerPicture")MultipartFile headerPicture) throws IOException {
+
+        logger.info(headerPicture.getOriginalFilename());
+        logger.info("准备上传");
+        // 1.执行文件上传
+        ResultEntity<String> uploadReturnPicResultEntity = ChatUtil.uploadFileToOss(
+                ossProperties.getEndPoint(),
+                ossProperties.getAccessKeyId(),
+                ossProperties.getAccessKeySecret(),
+                headerPicture.getInputStream(),
+                ossProperties.getBucketName(),
+                ossProperties.getBucketDomain(),
+                headerPicture.getOriginalFilename());
+
+        // 2.返回上传的结果
+        return uploadReturnPicResultEntity;
+
     }
 
 

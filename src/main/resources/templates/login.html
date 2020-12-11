@@ -12,12 +12,14 @@
 <body>
 <!-- partial:index.partial.html -->
 <div class="login-wrap">
+
     <div class="login-html">
+        <label for="tab-1" class="tab">chat chat !</label>
         <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
         <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
         <div class="login-form">
             <div class="sign-in-htm">
-                <form action="user/login">
+                <form  th:action="@{/user/login}" method="post" action="">
                     <div class="group">
                         <label for="loginAcctInput" class="label">账号</label>
                         <input id="loginAcctInput" name="loginAcct" type="text" class="input">
@@ -59,8 +61,8 @@
                 </div>
                 <div class="group">
                     <label for="reUsernameInput" class="label">头像</label>
-                    <input id="uploadHeaderFile" name="headerPicture" type="file" class="input">
-                    <input id="uploadHeaderBtn" type="button" class="button" value="上传">
+                    <input id="uploadHeaderFile" name="headerPicture" type="file" style="display: none;">
+                    <input id="uploadHeaderBtn" type="button" class="button" value="上传头像">
                 </div>
 
                 <div class="group">
@@ -119,9 +121,57 @@
         //
         // })
 
+        var headerPicturePath = "";
 
-        // 上传头像
-        
+        // 点击上传头像按钮打开文件选择框
+
+        $("#uploadHeaderBtn").click(function(){
+            $("[name=headerPicture]").click();
+        });
+
+
+        // 当选择头像时预览并上传头像
+        $("[name=headerPicture]").change(function (event){
+
+            var file = event.target.files[0];
+
+            var formData = new FormData();
+
+            formData.append("headerPicture",file);
+
+            $.ajax({
+                "url":"user/upload/headerPicture.json",
+                "type":"POST",
+                "data":formData,
+                "contentType":false,
+                "processData":false,
+                "dataType":"json",
+                "success":function(response){
+
+                    var result = response.result;
+
+                    if(result == "SUCCESS") {
+                        alert("上传成功！");
+
+                        // 如果上传成功，则从响应体数据中获取图片的访问路径
+                        headerPicturePath = response.data;
+                    }
+
+                    if(result == "FAILED") {
+                        layer.msg(response.message);
+                    }
+
+                },
+                "error":function(response){
+                    alert(response.status + " " + response.statusText);
+                }
+            });
+
+
+
+
+
+        })
 
 
         // 注册ajax
@@ -139,6 +189,7 @@
                 "userPswd": userPswd,
                 "repeatUserPswd": RepeatUserPswd,
                 "username": username,
+                "headerPicturePath":headerPicturePath,
             }
             var data = JSON.stringify(user);
 

@@ -18,10 +18,10 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 
 
-short:
-  message:
-    appcode: 1be445bc362045bc96233015517f1109
-    host: http://dingxin.market.alicloudapi.com
-    path: /dx/sendSms
-    method: post
-    tpl-id: TP1711063
+aliyun:
+  oss:
+    accessKeySecret: qDFYomOzkzO6L9LAlFtK0xgo5RAl3T
+    accessKeyId: LTAI4GGcB8CgTQZNjzffvm4M
+    bucketDomain: http://cjcfirstbucket.oss-cn-guangzhou.aliyuncs.com
+    bucketName: cjcfirstbucket
+    endpoint: http://oss-cn-guangzhou.aliyuncs.com

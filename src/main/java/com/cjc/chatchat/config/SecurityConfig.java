@@ -1,9 +1,12 @@
 package com.cjc.chatchat.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import sun.security.provider.MD5;
@@ -18,6 +21,7 @@ import javax.annotation.Resource;
  * To change this template use File | Settings | File Templates.
  **/
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
@@ -38,11 +42,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/layer/**")
                 .permitAll()
-                .antMatchers("/user/login")
+                .antMatchers(HttpMethod.POST,"/user/login")
                 .permitAll()
                 .antMatchers("/login.html")
                 .permitAll()
                 .antMatchers("/user/register.json")
+                .permitAll()
+                .antMatchers("/user/upload/headerPicture.json")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -50,9 +56,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .usernameParameter("loginAcct")
                 .passwordParameter("userPswd")
+                .permitAll()
                 .loginPage("/login.html")
                 .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/main.html");
+                .defaultSuccessUrl("/")
+                .and()
+                .csrf()
+                .disable();
 
     }
 
@@ -62,5 +72,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(md5PasswordEncoded);
     }
 
-    // 做到springsecurity的加密
+
 }
