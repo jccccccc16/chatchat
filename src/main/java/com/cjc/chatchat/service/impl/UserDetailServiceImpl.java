@@ -48,6 +48,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         UserPO userPO = userPOList.get(0);
         logger.info(userPO.getUsername()+" 用户登录成功");
+        logger.info(userPO.toString());
         return new SecurityUser(userPO);
     }
 }

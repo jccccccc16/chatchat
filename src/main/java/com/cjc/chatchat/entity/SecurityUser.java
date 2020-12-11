@@ -19,6 +19,7 @@ public class SecurityUser extends User {
 
     public SecurityUser(UserPO userPO) {
         super(userPO.getLoginAcct(), userPO.getUserPswd(), new ArrayList<GrantedAuthority>());
+        this.originalUser = userPO;
     }
 
 

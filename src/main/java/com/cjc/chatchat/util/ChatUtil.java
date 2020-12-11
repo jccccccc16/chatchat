@@ -206,7 +206,7 @@ public class ChatUtil {
     public static void main(String[] args) {
 //        String s = "  cj c 1 3 4";
 //        System.out.println(s.trim());
-        String s = md5("13427412420");
+        String s = md5("cjc1316");
         System.out.println(s);
     }
 
