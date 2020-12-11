@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+
+spring:
+  application:
+    name: crow-mysql
+  datasource:
+    name: mydb
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://192.168.52.138:3306/chat_room?serverTimezone=UTC
+    username: root
+    password: cjcisgood
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+
+short:
+  message:
+    appcode: 1be445bc362045bc96233015517f1109
+    host: http://dingxin.market.alicloudapi.com
+    path: /dx/sendSms
+    method: post
+    tpl-id: TP1711063
