@@ -24,6 +24,7 @@ function setAciveChat(f) {
   f.classList.add('active');
   chat.current = chat.container.querySelector('.active-chat');
   chat.person = f.getAttribute('data-chat');
+  layer.msg(chat.person)
   chat.current.classList.remove('active-chat');
   chat.container.querySelector('[data-chat="' + chat.person + '"]').classList.add('active-chat');
   friends.name = f.querySelector('.name').innerText;

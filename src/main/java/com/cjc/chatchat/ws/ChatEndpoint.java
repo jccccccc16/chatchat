@@ -7,6 +7,7 @@ import com.cjc.chatchat.entity.UserPO;
 import com.cjc.chatchat.entity.UserVO;
 import com.cjc.chatchat.entity.ws.Message;
 import com.cjc.chatchat.util.MessageUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.omg.PortableInterceptor.ORBInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,11 @@ public class ChatEndpoint {
 //    private static Map<String,ChatEndpointUserMapper> onlineUserMap
 //            = new ConcurrentHashMap<>();
 
-    private List<ChatEndpointUserMapper> onlineChatEndpointUserMapperList = Collections.synchronizedList(new ArrayList<>());
+    // 主要用于排序，让好友列表有一个先后顺序
+    private static List<ChatEndpointUserMapper> onlineChatEndpointUserMapperList = Collections.synchronizedList(new ArrayList<>());
+
+    //  为了方便查找用户,存储的数据与上面的list一样
+    private static Map<String,ChatEndpointUserMapper> onlineChatEndpointUserMapperMap = new ConcurrentHashMap<>();
 
 
     private Logger logger = LoggerFactory.getLogger(ChatEndpoint.class);
@@ -81,16 +86,19 @@ public class ChatEndpoint {
         // 将当前用户放到onlineUserMap中
         ChatEndpointUserMapper mapper = new ChatEndpointUserMapper(this, userVO);
         onlineChatEndpointUserMapperList.add(mapper);
+        onlineChatEndpointUserMapperMap.put(userVO.getLoginAcct(),mapper);
 
         // 将该用户的用户名推送给所有的客户端
         // 获取消息，包含所有在线用户的列表
-        String allOnlineUserMessage = MessageUtils.getMessage(true, null, getUserVOListFromMapper());
+        String allOnlineUserMessage = MessageUtils.getMessage(true,null, getUserVOListFromMapper());
         logger.info("allOnlineUserMessage:"+allOnlineUserMessage);
+
         // 仅包含当前用户信息的消息
         ArrayList<UserVO> currentUser = new ArrayList<>();
         currentUser.add(getCurrentUser());
-        String currentUserMessage = MessageUtils.getMessage(true, null, getCurrentUser());
+        String currentUserMessage = MessageUtils.getMessage(true,null,currentUser);
         logger.info("currentUserMessage:"+currentUserMessage);
+
         // 调用广播方法
         broadcastAllUsers(allOnlineUserMessage,currentUserMessage);
 
@@ -153,7 +161,6 @@ public class ChatEndpoint {
                 ChatEndpoint chatEndpoint = chatEndpointUserMapper.getChatEndpoint();
                 if(currentUserLoginAcct.equals(loginAcct)){
                     // 那么更新整个好友列表
-
                     chatEndpoint.session.getBasicRemote().sendText(allOnlineUserMessage);
                 }else{
                     // 如果不是当前用户
@@ -178,7 +185,31 @@ public class ChatEndpoint {
     @OnMessage
     public void onMessage(String message,Session session){
 
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Message msg = objectMapper.readValue(message, Message.class);
+            // 获取就接收者
+            String toName = msg.getToName();
 
+            // 获取消息数据
+            String data = msg.getMessage();
+
+            // 获取发送者
+            UserVO currentUser = getCurrentUser();
+
+            // 获取服务端发送给客户端的消息格式
+            String sendMessage = MessageUtils.getMessage(false, currentUser, data);
+
+            // 获取接受者的服务端
+            ChatEndpointUserMapper chatEndpointUserMapper = onlineChatEndpointUserMapperMap.get(toName);
+            ChatEndpoint chatEndpoint = chatEndpointUserMapper.getChatEndpoint();
+            // 发送
+            chatEndpoint.session.getBasicRemote().sendText(sendMessage);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 

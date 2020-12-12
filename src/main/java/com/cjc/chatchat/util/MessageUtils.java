@@ -1,5 +1,6 @@
 package com.cjc.chatchat.util;
 
+import com.cjc.chatchat.entity.UserVO;
 import com.cjc.chatchat.entity.ws.ResultMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,18 +17,17 @@ public class MessageUtils {
     /**
      * 返回json字符串
      * @param isSystemMessage
-     * @param fromName
      * @param message
      * @return
      */
     public static String getMessage(boolean isSystemMessage,
-                                    String fromName,
+                                    UserVO fromUser,
                                     Object message){
         ResultMessage resultMessage = new ResultMessage();
         resultMessage.setIsSystem(isSystemMessage);
         resultMessage.setMessage(message);
-        if(fromName!=null){
-            resultMessage.setFromName(fromName);
+        if(fromUser!=null){
+            resultMessage.setFromUser(fromUser);
         }
         ObjectMapper mapper = new ObjectMapper();
         try {

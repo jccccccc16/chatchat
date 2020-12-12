@@ -17,6 +17,7 @@ public class ChatEndpointUserMapper {
 
     private ChatEndpoint chatEndpoint;
     private UserVO userVO;
+    private boolean isCurrentLogin;
 
     public ChatEndpointUserMapper(ChatEndpoint chatEndpoint, UserVO userVO) {
         this.chatEndpoint = chatEndpoint;
