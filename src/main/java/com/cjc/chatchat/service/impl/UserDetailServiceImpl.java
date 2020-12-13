@@ -33,6 +33,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String loginAcct) throws UsernameNotFoundException {
 
+        logger.info("loginAcct:"+loginAcct);
+
         UserPOExample userPOExample = new UserPOExample();
 
         UserPOExample.Criteria criteria = userPOExample.createCriteria();

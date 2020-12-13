@@ -30,6 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private Md5PasswordEncoded md5PasswordEncoded;
 
+    @Resource
+    private ChatAuthenticationSuccessHandler successHandler;
+
+    @Resource
+    private ChatAuthenticationFailureHandler failureHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -43,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/layer/**")
                 .permitAll()
                 .antMatchers(HttpMethod.POST,"/user/login")
+                .permitAll()
+                .antMatchers("/user/login.json")
                 .permitAll()
                 .antMatchers("/login.html")
                 .permitAll()
@@ -58,8 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("userPswd")
                 .permitAll()
                 .loginPage("/login.html")
-                .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/")
+                .loginProcessingUrl("/user/login.json")
+                .successHandler(successHandler)
+                .failureHandler(failureHandler)
                 .and()
                 .csrf()
                 .disable();

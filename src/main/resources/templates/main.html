@@ -540,6 +540,11 @@ you blind bitch</span>
                 name: document.querySelector('.container .right .top .name')
             };
 
+        document.querySelector('.chat[data-chat=person2]').classList.add('active-chat');
+        document.querySelector('.person[data-chat=person2]').classList.add('active');
+
+
+
 
         // 当好友列表中的好友被选中时
         // 元素被选中，并且显示聊天记录
@@ -707,8 +712,6 @@ you blind bitch</span>
                     name: document.querySelector('.container .right .top .name')
                 };
 
-
-
             }
 
 
@@ -753,6 +756,26 @@ you blind bitch</span>
             ws.send(JSON.stringify(json));
 
         })
+
+        // 禁止刷新
+        $(document).ready(function() {
+            $(document).bind("keydown",function(e){
+                e=window.event||e;
+                if(e.keyCode==116){
+                    e.keyCode = 0;
+                    return false;
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $(document).bind("contextmenu",function(e) {
+                alert("sorry! No right-clicking!");
+                return false;
+            });
+        });
+
+
 
     })
 

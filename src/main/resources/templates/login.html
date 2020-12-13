@@ -18,7 +18,7 @@
         <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
         <div class="login-form">
             <div class="sign-in-htm">
-                <form  th:action="@{/user/login}" method="post" action="">
+                <form>
                     <div class="group">
                         <label for="loginAcctInput" class="label">账号</label>
                         <input id="loginAcctInput" name="loginAcct" type="text" class="input">
@@ -32,7 +32,7 @@
                         <label for="rememberMeCheck"><span class="icon"></span> 记 住 我</label>
                     </div>
                     <div class="group">
-                        <input id="loginBtn" type="submit" class="button" value="登录">
+                        <input id="loginBtn"  class="button" value="登录">
                     </div>
                 </form>
                 <div class="hr"></div>
@@ -82,43 +82,65 @@
     $(function () {
 
 
-        // $("#loginBtn").click(function () {
-        //
-        //     var loginAcct = $.trim($("#loginAcctInput").val());
-        //     var userPswd = $.trim($("#userPswdInput").val());
-        //     var rememberMe = $.trim($("#rememberMeCheck").val());
-        //
-        //     var input = {
-        //
-        //         "loginAcct": loginAcct,
-        //         "userPswd": userPswd,
-        //         "rememberMe": rememberMe,
-        //     }
-        //
-        //     var data = JSON.stringify(input);
-        //
-        //
-        //     $.ajax({
-        //
-        //         "url": "user/login.json",
-        //         "type": "POST",
-        //         "data": data,
-        //         "contentType": "application/json;charset=UTF-8",
-        //         "dataType": "json",
-        //         "success": function (response) {
-        //             var result = response.result;
-        //             if (result == "SUCCESS") {
-        //                 layer.msg("登录成功");
-        //             }
-        //             window.location.href="http://localhost:8080";
-        //         },
-        //         "error": function (response) {
-        //             layer.msg(response.message)
-        //         }
-        //
-        //     })
-        //
-        // })
+        $("#loginBtn").click(function () {
+
+            var loginAcct = $.trim($("#loginAcctInput").val());
+            var userPswd = $.trim($("#userPswdInput").val());
+            var rememberMe = $.trim($("#rememberMeCheck").val());
+
+            if(loginAcct=="" || userPswd == ""){
+                layer.msg("请输入账号或密码");
+                return ;
+            }
+
+
+            var input = {
+
+                "loginAcct": loginAcct,
+                "userPswd": userPswd,
+                "rememberMe": rememberMe,
+            }
+
+            //var data = JSON.stringify(input);
+
+            // 弹出加载层
+
+
+            layer.load(2);
+
+
+            // 为什么整合spring security之后，ajax发送数据不能发送json字符串吗
+            $.ajax({
+
+                "url": "user/login.json",
+                "type": "POST",
+                "data": input,
+                //"contentType": "application/json;charset=UTF-8",
+                "dataType": "json",
+                "success": function (response) {
+                    // 关闭加载层
+                    layer.closeAll('loading');
+                    var result = response.result;
+                    if (result == "SUCCESS") {
+
+                        layer.msg("登录成功");
+                        window.location.href="http://localhost:8080";
+                    }else if(result=="FAILED"){
+
+                        layer.msg(response.message);
+                    }
+
+                },
+                "error": function (response) {
+                    // 关闭加载层
+                    layer.closeAll('loading');
+                    layer.msg(response.message)
+
+                }
+
+            })
+
+        })
 
         var headerPicturePath = "";
 
@@ -151,7 +173,6 @@
 
                     if(result == "SUCCESS") {
                         alert("上传成功！");
-
                         // 如果上传成功，则从响应体数据中获取图片的访问路径
                         headerPicturePath = response.data;
                     }
