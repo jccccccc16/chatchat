@@ -462,7 +462,7 @@ you blind bitch</span>
             </div>
             <div class="write">
                 <a href="javascript:;" class="write-link attach"></a>
-                <input id="messageInput" type="text"/>
+                <input onkeydown="keydown()" id="messageInput" type="text"/>
                 <a href="javascript:;" class="write-link smiley"></a>
                 <a id="sendMessage" class="write-link send"></a>
             </div>
@@ -515,6 +515,12 @@ you blind bitch</span>
     //     })
     //
     // })
+
+    function keydown(){
+        if(event.keyCode==13){
+            $("#sendMessage").click();
+        }
+    }
 
 
     $(function () {
@@ -604,7 +610,7 @@ you blind bitch</span>
                 for (var user of onlineUserList) {
                     var headerPicturePath = user.headerPicturePath;
                     var loginAcct = user.loginAcct;
-                    var name = user.name;
+                    var name = user.username;
                     var message = user.message;
                     var myDate = new Date;
                     var hour = myDate.getHours();
@@ -663,6 +669,8 @@ you blind bitch</span>
                 $(".people").prepend(person_copy);
 
 
+
+
                 // 1.2 插入到好友列表最前面
                 // $(".people").prepend("<li id="+loginAcct+" class=\"person\" data-chat="+loginAcct+">\n" +
                 //     "                    <img src="+headerPicturePath+" alt=\"\"/>\n" +
@@ -714,6 +722,8 @@ you blind bitch</span>
         ws.onerror = function () {
 
         };
+
+
 
 
         // 发送消息

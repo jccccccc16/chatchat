@@ -136,6 +136,8 @@ public class UserController {
                 ossProperties.getBucketDomain(),
                 headerPicture.getOriginalFilename());
 
+        logger.info("uploadReturnPicResultEntity: "+uploadReturnPicResultEntity);
+
         // 2.返回上传的结果
         return uploadReturnPicResultEntity;
 
