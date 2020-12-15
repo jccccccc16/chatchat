@@ -42,7 +42,6 @@ public class UserController {
 
 
 
-
 //    @RequestMapping(value = "/register",method = RequestMethod.POST)
 //    public String register(UserRegisterVO userRegisterVO, ModelMap modelMap, HttpServletRequest request){
 //

@@ -9,6 +9,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="birthday" property="birthday" jdbcType="VARCHAR" />
     <result column="header_picture_path" property="headerPicturePath" jdbcType="VARCHAR" />
+    <result column="is_login" property="isLogin" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, login_acct, user_pswd, name, birthday, header_picture_path
+    id, username, login_acct, user_pswd, name, birthday, header_picture_path,is_login
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cjc.chatchat.entity.UserPOExample" >
     select
@@ -94,10 +95,10 @@
   <insert id="insert" parameterType="com.cjc.chatchat.entity.UserPO" >
     insert into t_user (id, username, login_acct, 
       user_pswd, name, birthday, 
-      header_picture_path)
+      header_picture_path,is_login)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{loginAcct,jdbcType=VARCHAR}, 
       #{userPswd,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, 
-      #{headerPicturePath,jdbcType=VARCHAR})
+      #{headerPicturePath,jdbcType=VARCHAR},#{isLogin,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.cjc.chatchat.entity.UserPO" >
     insert into t_user
@@ -111,6 +112,7 @@
       <if test="loginAcct != null" >
         login_acct,
       </if>
+
       <if test="userPswd != null" >
         user_pswd,
       </if>
@@ -122,6 +124,9 @@
       </if>
       <if test="headerPicturePath != null" >
         header_picture_path,
+      </if>
+      <if test="isLogin!=null">
+        is_login
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -145,6 +150,9 @@
       </if>
       <if test="headerPicturePath != null" >
         #{headerPicturePath,jdbcType=VARCHAR},
+      </if>
+      <if test="isLogin!=null">
+        #{isLogin,jdbcType=INTEGER}
       </if>
     </trim>
   </insert>
@@ -178,6 +186,9 @@
       <if test="record.headerPicturePath != null" >
         header_picture_path = #{record.headerPicturePath,jdbcType=VARCHAR},
       </if>
+      <if test="record.isLogin!=null">
+        is_login = #{record.isLogin,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -191,7 +202,8 @@
       user_pswd = #{record.userPswd,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       birthday = #{record.birthday,jdbcType=VARCHAR},
-      header_picture_path = #{record.headerPicturePath,jdbcType=VARCHAR}
+      header_picture_path = #{record.headerPicturePath,jdbcType=VARCHAR},
+      is_login = #{record.isLogin,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>

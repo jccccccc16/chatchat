@@ -29,12 +29,20 @@ public class ChatAuthenticationFailureHandler implements AuthenticationFailureHa
         String loginAcct = httpServletRequest.getParameter("loginAcct");
         System.out.println("onAuthenticationFailure,loginAcct:"+loginAcct);
         httpServletResponse.setCharacterEncoding("UTF-8");
-        ResultEntity<Object> resultEntity = ResultEntity.failed(ChatChatConstant.MESSAGE_LOGIN_FAILED);
+
+        // 获取异常信息
+        String message = e.getMessage();
+
+        // 封装异常信息
+        ResultEntity<Object> resultEntity = ResultEntity.failed(message);
+
         PrintWriter out = httpServletResponse.getWriter();
         String json = JSON.toJSONString(resultEntity);
         out.write(json);
         out.flush();
         out.close();
-
     }
+
+
+
 }

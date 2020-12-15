@@ -1,8 +1,11 @@
 package com.cjc.chatchat.service.impl;
 
+import com.cjc.chatchat.constant.ChatChatConstant;
 import com.cjc.chatchat.entity.SecurityUser;
 import com.cjc.chatchat.entity.UserPO;
 import com.cjc.chatchat.entity.UserPOExample;
+import com.cjc.chatchat.exception.UserAlreadyLoginException;
+import com.cjc.chatchat.exception.UserLoginAcctOrUserPswdIncorrectException;
 import com.cjc.chatchat.mapper.UserPOMapper;
 import com.cjc.chatchat.service.api.UserService;
 import org.slf4j.Logger;
@@ -45,12 +48,19 @@ public class UserDetailServiceImpl implements UserDetailsService {
          * 如果为空
          */
         if(userPOList==null || userPOList.size()==0){
-            return null;
+            throw new UserLoginAcctOrUserPswdIncorrectException(ChatChatConstant.MESSAGE_LOGIN_FAILED);
         }
 
+        // 判断该用户是否已经登录
         UserPO userPO = userPOList.get(0);
-        logger.info(userPO.getUsername()+" 用户登录成功");
-        logger.info(userPO.toString());
+        Integer isLogin = userPO.getIsLogin();
+
+        if(isLogin.equals(ChatChatConstant.ATTR_IS_LOGIN)){
+            // 如果已经登录,抛出异常
+            throw new UserAlreadyLoginException(ChatChatConstant.MESSAGE_USER_ALREADY_LOGIN);
+
+        }
+
         return new SecurityUser(userPO);
     }
 }

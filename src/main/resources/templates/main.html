@@ -714,7 +714,6 @@ you blind bitch</span>
 
             }
 
-
         };
 
         ws.onclose = function () {
@@ -770,11 +769,10 @@ you blind bitch</span>
 
         $(document).ready(function() {
             $(document).bind("contextmenu",function(e) {
-                alert("sorry! No right-clicking!");
+                layer.msg("此应用不允许刷新");
                 return false;
             });
         });
-
 
 
     })

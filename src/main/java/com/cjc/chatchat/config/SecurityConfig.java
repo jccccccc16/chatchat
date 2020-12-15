@@ -36,6 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private ChatAuthenticationFailureHandler failureHandler;
 
+    @Resource
+    private ChatAuthenticationProvider chatAuthenticationProvider;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -72,6 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable();
+        http.sessionManagement()
+                .invalidSessionUrl("/login.html");
+        http.sessionManagement()
+                .maximumSessions(1)
+                .expiredUrl("/login.html");
 
     }
 
@@ -79,6 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(md5PasswordEncoded);
+        auth.authenticationProvider(chatAuthenticationProvider);
+
     }
 
 

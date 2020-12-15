@@ -15,6 +15,8 @@ public class UserPO {
 
     private String headerPicturePath;
 
+    private Integer isLogin;
+
     public Integer getId() {
         return id;
     }
@@ -71,6 +73,14 @@ public class UserPO {
         this.headerPicturePath = headerPicturePath == null ? null : headerPicturePath.trim();
     }
 
+    public Integer getIsLogin() {
+        return isLogin;
+    }
+
+    public void setIsLogin(Integer isLogin) {
+        this.isLogin = isLogin;
+    }
+
     @Override
     public String toString() {
         return "UserPO{" +
@@ -81,6 +91,7 @@ public class UserPO {
                 ", name='" + name + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", headerPicturePath='" + headerPicturePath + '\'' +
+                ", is_login=" + isLogin +
                 '}';
     }
 }
