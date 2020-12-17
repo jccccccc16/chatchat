@@ -108,6 +108,8 @@ public class UserController {
         UserPO userPO = new UserPO();
         BeanUtils.copyProperties(userRegisterVO,userPO);
 
+        userPO.setIsLogin(0);
+
         try{
 
             userService.saveUser(userPO);
@@ -120,10 +122,10 @@ public class UserController {
     }
 
 
-    @RequestMapping("/user/upload/headerPicture.json")
+    @RequestMapping("/user/upload/picture.json")
     @ResponseBody
     public ResultEntity<String> uploadHeaderPicture(
-            @RequestParam("headerPicture")MultipartFile headerPicture) throws IOException {
+            @RequestParam("picture")MultipartFile headerPicture) throws IOException {
 
         logger.info(headerPicture.getOriginalFilename());
         logger.info("准备上传");
@@ -143,6 +145,11 @@ public class UserController {
         return uploadReturnPicResultEntity;
 
     }
+
+
+
+
+
 
 
 
@@ -233,6 +240,9 @@ public class UserController {
 //        return ResultEntity.successWithoutData();
 //
 //    }
+
+
+
 
 
 

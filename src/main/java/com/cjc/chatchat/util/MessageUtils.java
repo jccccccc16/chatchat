@@ -21,11 +21,15 @@ public class MessageUtils {
      * @return
      */
     public static String getMessage(boolean isSystemMessage,
+                                    boolean isPicture,
+                                    String type,
                                     UserVO fromUser,
                                     Object message){
         ResultMessage resultMessage = new ResultMessage();
         resultMessage.setIsSystem(isSystemMessage);
+        resultMessage.setType(type);
         resultMessage.setMessage(message);
+        resultMessage.setIsPicture(isPicture);
         if(fromUser!=null){
             resultMessage.setFromUser(fromUser);
         }

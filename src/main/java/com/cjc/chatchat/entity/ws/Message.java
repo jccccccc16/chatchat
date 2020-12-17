@@ -1,5 +1,7 @@
 package com.cjc.chatchat.entity.ws;
 
+import com.fasterxml.jackson.core.SerializableString;
+
 /**
  * Created by IntelliJ IDEA.
  * User: cjc
@@ -10,13 +12,16 @@ package com.cjc.chatchat.entity.ws;
  **/
 public class Message {
 
+
+    private boolean isPicture;
     private String toName;
     private String message;
 
     public Message() {
     }
 
-    public Message(String toName, String message) {
+    public Message(String toName, String message,boolean isPicture) {
+        this.isPicture = isPicture;
         this.toName = toName;
         this.message = message;
     }
@@ -37,10 +42,19 @@ public class Message {
         this.message = message;
     }
 
+    public boolean isPicture() {
+        return isPicture;
+    }
+
+    public void setIsPicture(boolean picture) {
+        isPicture = picture;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
-                "toName='" + toName + '\'' +
+                "type='" + isPicture + '\'' +
+                ", toName='" + toName + '\'' +
                 ", message='" + message + '\'' +
                 '}';
     }

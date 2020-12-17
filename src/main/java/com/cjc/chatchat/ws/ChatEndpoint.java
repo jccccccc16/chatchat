@@ -6,6 +6,7 @@ import com.cjc.chatchat.entity.SecurityUser;
 import com.cjc.chatchat.entity.UserPO;
 import com.cjc.chatchat.entity.UserVO;
 import com.cjc.chatchat.entity.ws.Message;
+import com.cjc.chatchat.entity.ws.ResultMessage;
 import com.cjc.chatchat.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.omg.PortableInterceptor.ORBInitializer;
@@ -71,13 +72,6 @@ public class ChatEndpoint {
 
 
 
-        // 从springSecurity中获取当前登录用户
-//        SecurityContextImpl securityContextImpl = (SecurityContextImpl)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
-//        SecurityUser loginUser = (SecurityUser) securityContextImpl.getAuthentication().getPrincipal();
-//        UserPO originalUser = loginUser.getOriginalUser();
-//        String loginAcct = originalUser.getLoginAcct();
-//        UserVO userVO = new UserVO();
-//        BeanUtils.copyProperties(originalUser,new UserVO());
 
         UserVO userVO = getCurrentUser();
         logger.info(userVO.toString());
@@ -90,13 +84,13 @@ public class ChatEndpoint {
 
         // 将该用户的用户名推送给所有的客户端
         // 获取消息，包含所有在线用户的列表
-        String allOnlineUserMessage = MessageUtils.getMessage(true,null, getUserVOListFromMapper());
+        String allOnlineUserMessage = MessageUtils.getMessage(true,false, ResultMessage.TYPE_ONLINE_MESSAGE,null, getUserVOListFromMapper());
         logger.info("allOnlineUserMessage:"+allOnlineUserMessage);
 
         // 仅包含当前用户信息的消息
         ArrayList<UserVO> currentUser = new ArrayList<>();
         currentUser.add(getCurrentUser());
-        String currentUserMessage = MessageUtils.getMessage(true,null,currentUser);
+        String currentUserMessage = MessageUtils.getMessage(true,false,ResultMessage.TYPE_ONLINE_MESSAGE,null,currentUser);
         logger.info("currentUserMessage:"+currentUserMessage);
 
         // 调用广播方法
@@ -185,7 +179,13 @@ public class ChatEndpoint {
     @OnMessage
     public void onMessage(String message,Session session){
 
+
+
+
         try {
+
+            logger.info("接收到客户端发来的message:"+message);
+
             ObjectMapper objectMapper = new ObjectMapper();
             Message msg = objectMapper.readValue(message, Message.class);
             // 获取就接收者
@@ -197,14 +197,19 @@ public class ChatEndpoint {
             // 获取发送者
             UserVO currentUser = getCurrentUser();
 
+
+
             // 获取服务端发送给客户端的消息格式
-            String sendMessage = MessageUtils.getMessage(false, currentUser, data);
+            String sendMessage = MessageUtils.getMessage(false,msg.isPicture(),null, currentUser, data);
 
             // 获取接受者的服务端
             ChatEndpointUserMapper chatEndpointUserMapper = onlineChatEndpointUserMapperMap.get(toName);
             ChatEndpoint chatEndpoint = chatEndpointUserMapper.getChatEndpoint();
+
             // 发送
             chatEndpoint.session.getBasicRemote().sendText(sendMessage);
+
+            logger.info("发送到客户端的message:"+sendMessage);
 
 
         }catch (Exception e){
@@ -220,8 +225,55 @@ public class ChatEndpoint {
     @OnClose
     public void onClose(Session session){
 
+
+//
+//        UserVO currentUser = getCurrentUser();
+//        String loginAcct = currentUser.getLoginAcct();
+//
+//        logger.info("用户："+loginAcct+"离线");
+//
+//        int index = 0;
+//        List<UserVO> userVOListFromMapper = getUserVOListFromMapper();
+//        for (UserVO userVO : userVOListFromMapper) {
+//            String loginAcct1 = userVO.getLoginAcct();
+//            if(loginAcct.equals(loginAcct1)){
+//                onlineChatEndpointUserMapperList.remove(index);
+//                logger.info("将其移出列表");
+//            }else{
+//                index+=1;
+//            }
+//        }
+//
+//        String message = MessageUtils.getMessage(true, ResultMessage.TYPE_OFFLINE_MESSAGE, null, currentUser);
+//
+//        offlineBroadcastAll(message);
+
+
     }
 
+    /**
+     * 该离线的用户信息发送给其他的用户，在好友列表中删除
+     * @param message
+     */
+    private void offlineBroadcastAll(String message)  {
+
+        try {
+
+            for (ChatEndpointUserMapper chatEndpointUserMapper : onlineChatEndpointUserMapperList) {
+            String loginAcct = chatEndpointUserMapper.getUserVO().getLoginAcct();
+            // 如果是当前用户
+            ChatEndpoint chatEndpoint = chatEndpointUserMapper.getChatEndpoint();
+
+            chatEndpoint.session.getBasicRemote().sendText(message);
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 
 

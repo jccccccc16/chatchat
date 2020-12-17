@@ -60,7 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/user/register.json")
                 .permitAll()
-                .antMatchers("/user/upload/headerPicture.json")
+                .antMatchers("/user/upload/picture.json")
+                .permitAll()
+                .antMatchers("/layui/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -88,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(md5PasswordEncoded);
-        auth.authenticationProvider(chatAuthenticationProvider);
+
 
     }
 
