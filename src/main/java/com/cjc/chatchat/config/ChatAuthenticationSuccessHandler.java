@@ -63,7 +63,7 @@ public class ChatAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
 
         httpServletResponse.setCharacterEncoding("UTF-8");
-        ResultEntity<Object> resultEntity = ResultEntity.successWithoutData();
+        ResultEntity<String> resultEntity = ResultEntity.successWithData(loginAcct);
         PrintWriter out = httpServletResponse.getWriter();
         String json = JSON.toJSONString(resultEntity);
         out.write(json);

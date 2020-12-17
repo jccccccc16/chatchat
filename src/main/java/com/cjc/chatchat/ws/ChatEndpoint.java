@@ -8,11 +8,14 @@ import com.cjc.chatchat.entity.UserVO;
 import com.cjc.chatchat.entity.ws.Message;
 import com.cjc.chatchat.entity.ws.ResultMessage;
 import com.cjc.chatchat.util.MessageUtils;
+import com.cjc.chatchat.util.RedisUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.omg.PortableInterceptor.ORBInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,6 +45,11 @@ public class ChatEndpoint {
 //    private static Map<String,ChatEndpointUserMapper> onlineUserMap
 //            = new ConcurrentHashMap<>();
 
+
+
+    private static RedisUtils redisUtils;
+
+
     // 主要用于排序，让好友列表有一个先后顺序
     private static List<ChatEndpointUserMapper> onlineChatEndpointUserMapperList = Collections.synchronizedList(new ArrayList<>());
 
@@ -56,6 +64,14 @@ public class ChatEndpoint {
 
     // 用于获取当前用户名
     private HttpSession httpSession;
+
+
+
+
+    @Autowired
+    public void setRedisUtil(RedisUtils redisUtil){
+        this.redisUtils = redisUtil;
+    }
 
 
     /**
@@ -100,7 +116,7 @@ public class ChatEndpoint {
     }
 
 
-    private UserVO getCurrentUser(){
+    public UserVO getCurrentUser(){
 
 //        SecurityUser loginUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -197,7 +213,8 @@ public class ChatEndpoint {
             // 获取发送者
             UserVO currentUser = getCurrentUser();
 
-
+            // 存储消息
+            redisUtils.insertMessageRecord(currentUser.getLoginAcct(),toName,data,msg.isPicture());
 
             // 获取服务端发送给客户端的消息格式
             String sendMessage = MessageUtils.getMessage(false,msg.isPicture(),null, currentUser, data);

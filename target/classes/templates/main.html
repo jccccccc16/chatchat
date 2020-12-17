@@ -406,25 +406,8 @@
 
     $(function () {
 
-
-        // 初始化
-        let friends = {
-                list: document.querySelector('ul.people'),
-                all: document.querySelectorAll('.left .person'),
-                name: ''
-            },
-
-            chat = {
-                container: document.querySelector('.container .right'),
-                current: null,
-                person: null,
-                name: document.querySelector('.container .right .top .name')
-            };
-
-        document.querySelector('.chat[data-chat=person2]').classList.add('active-chat');
-        document.querySelector('.person[data-chat=person2]').classList.add('active');
-
-
+        $(".person[data-chat=person2]").attr("class","person active");
+        $(".chat[data-chat=person2]").attr("class","chat active-chat");
 
 
         // 当好友列表中的好友被选中时
@@ -432,38 +415,90 @@
         $(".person").click(function () {
 
 
-            friends = {
-                list: document.querySelector('ul.people'),
-                all: document.querySelectorAll('.left .person'),
-                name: ''
-            };
-
-            chat = {
-                container: document.querySelector('.container .right'),
-                current: null,
-                person: null,
-                name: document.querySelector('.container .right .top .name')
-            };
 
 
-            friends.all.forEach(f => {
-                f.addEventListener('mousedown', () => {
-                    f.classList.contains('active') || setAciveChat(f);
-                });
-            });
 
-            function setAciveChat(f) {
-                friends.list.querySelector('.active').classList.remove('active');
-                f.classList.add('active');
-                chat.current = chat.container.querySelector('.active-chat');
-                chat.person = f.getAttribute('data-chat');
-                chat.current.classList.remove('active-chat');
-                chat.container.querySelector('[data-chat="' + chat.person + '"]').classList.add('active-chat');
-                friends.name = f.querySelector('.name').innerText;
-                chat.name.innerHTML = friends.name;
-            }
+            // 当好友列表中的好友被选中时
+            // 元素被选中，并且显示聊天记录
+            $(".person").click(function () {
+
+                // 将已选中的元素去除选中属性
+                $(".active").attr("class","person");
+                $(".active-chat").attr("class","chat");
 
 
+                // 在好友列表中设置为选中
+                $(this).attr("class", "person active");
+
+                // 获取好友账号
+                var toLoginAcct = $(this).attr("id");
+
+                console.info(toLoginAcct);
+
+
+
+                // 查询聊天记录
+                $.ajax({
+                    "url": "chat/get/message/record.json?toLoginAcct="+toLoginAcct,
+                    "type":"GET",
+                    "dataType": "json",
+                    "success": function (response) {
+
+                        var result = response.result;
+
+                        if (result == "SUCCESS") {
+
+                            alert("在这里1")
+
+                            var recordList = response.data;
+
+                            console.info(recordList);
+
+                            var chatRecordHtml = "";
+
+
+                            if(recordList==null){
+                                alert("在这里2")
+                            }else{
+                                alert("在这里3")
+                                // 编写html
+                                for (var record of recordList) {
+
+                                    var type = record.type;
+                                    var message = record.message;
+                                    if (record.isPicture) {
+                                        chatRecordHtml = "<div class=\"bubble you\">\n" +
+                                            "                <img width=\"100\" src="+picturePath+">\n" +
+                                            "            </div>"
+                                    }else{
+                                        chatRecordHtml += "<div class=\"bubble " + type + "\">\n" +
+                                            "                        " + message + "\n" +
+                                            "                    </div>";
+                                    }
+                                }
+                                // 插入元素
+                                // 先清空
+                                $("#"+toLoginAcct+"ChatRecord").empty();
+                                $("#"+toLoginAcct+"ChatRecord").append(chatRecordHtml);
+                            }
+
+
+
+                        } else if (result == "FAILED") {
+
+                            layer.msg(response.message);
+
+                        }
+                    },
+                    "error": function (response) {
+
+                    }
+                })
+
+                // 聊天窗口设置为选中
+                $("#"+toLoginAcct+"ChatRecord").attr("class", "chat active-chat");
+
+            })
 
         })
 
@@ -614,19 +649,19 @@
 
 
 
-                // 更新
-                friends = {
-                    list: document.querySelector('ul.people'),
-                    all: document.querySelectorAll('.left .person'),
-                    name: ''
-                };
-
-                chat = {
-                    container: document.querySelector('.container .right'),
-                    current: null,
-                    person: null,
-                    name: document.querySelector('.container .right .top .name')
-                };
+                // // 更新
+                // friends = {
+                //     list: document.querySelector('ul.people'),
+                //     all: document.querySelectorAll('.left .person'),
+                //     name: ''
+                // };
+                //
+                // chat = {
+                //     container: document.querySelector('.container .right'),
+                //     current: null,
+                //     person: null,
+                //     name: document.querySelector('.container .right .top .name')
+                // };
 
             }
 
@@ -677,7 +712,8 @@
 
                         // 获取好友的账号
 
-                        var toName = friends.list.querySelector('.active').getAttribute("data-chat");
+                        var toName =  $(".chat active-chat").attr("data-chat");
+                        //var toName = friends.list.querySelector('.active').getAttribute("data-chat");
 
                         // 插入聊天框
                         var pictureChatHtml = "<div class=\"bubble me\">\n" +
@@ -723,7 +759,8 @@
             $("#messageInput").val("");
 
             // 获取接收者的用户名
-            var toName = friends.list.querySelector('.active').getAttribute("data-chat");
+            var toName =  $(".active-chat").attr("data-chat");
+           // var toName = friends.list.querySelector('.active').getAttribute("data-chat");
 
             var json = {"isPicture":false,"toName": toName, "message": data};
 

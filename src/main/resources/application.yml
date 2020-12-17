@@ -12,7 +12,8 @@ spring:
     username: root
     password: cjcisgood
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  redis:
+    host: 192.168.52.138
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml

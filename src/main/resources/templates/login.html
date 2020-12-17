@@ -132,6 +132,7 @@
                     if (result == "SUCCESS") {
 
                         layer.msg("登录成功");
+                        window.currentLoginAcct = response.data;
                         window.location.href="http://localhost:8080";
                     }else if(result=="FAILED"){
 

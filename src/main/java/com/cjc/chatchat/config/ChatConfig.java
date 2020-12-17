@@ -1,6 +1,9 @@
 package com.cjc.chatchat.config;
 
+import com.cjc.chatchat.util.RedisUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,7 +34,6 @@ public class ChatConfig implements WebMvcConfigurer {
 
 
     }
-
 
 
 
