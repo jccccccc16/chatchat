@@ -183,6 +183,10 @@ body {
   padding: 15px 29px;
   background-color: #eceff1;
 }
+.container .right #chatRecordDiv{
+  height: 552px;
+  overflow: auto;
+}
 .container .right .top span {
   font-size: 15px;
   color: var(--grey);
@@ -200,7 +204,6 @@ body {
   border-width: 1px 1px 1px 0;
   border-style: solid;
   border-color: var(--light);
-  height: calc(100% - 48px);
   -webkit-box-pack: end;
           justify-content: flex-end;
   -webkit-box-orient: vertical;

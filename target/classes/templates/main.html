@@ -1,274 +1,4 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>CodePen - Direct Messaging</title>-->
-<!--    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">-->
-<!--    <base href="" th:href="@{/}">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">-->
-<!--    <link rel="stylesheet" href="css/style.css">-->
-<!--    <script  src="js/script.js"></script>-->
-<!--    <script src="layer/layer.js"></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--&lt;!&ndash; partial:index.partial.html &ndash;&gt;-->
-<!--<div class="wrapper">-->
-<!--    <div class="container">-->
-<!--        <div class="left">-->
-<!--            <div class="top">-->
-<!--                <input type="text" placeholder="Search"/>-->
-<!--                <a href="javascript:;" class="search"></a>-->
-<!--            </div>-->
-<!--            <ul id="onlineUsers" class="people">-->
-<!--                <li class="person" data-chat="person1">-->
-<!--                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/thomas.jpg" alt=""/>-->
-<!--                    <span class="name">Thomas Bangalter</span>-->
-<!--                    <span class="time">2:09 PM</span>-->
-<!--                    <span class="preview">I was wondering...</span>-->
-<!--                </li>-->
-<!--                <li class="person" data-chat="person2">-->
-<!--                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/dog.png" alt=""/>-->
-<!--                    <span class="name">Dog Woofson</span>-->
-<!--                    <span class="time">1:44 PM</span>-->
-<!--                    <span class="preview">I've forgotten how it felt before</span>-->
-<!--                </li>-->
-<!--                <li class="person" data-chat="person3">-->
-<!--                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/louis-ck.jpeg" alt=""/>-->
-<!--                    <span class="name">Louis CK</span>-->
-<!--                    <span class="time">2:09 PM</span>-->
-<!--                    <span class="preview">But we’re probably gonna need a new carpet.</span>-->
-<!--                </li>-->
-<!--                <li class="person" data-chat="person4">-->
-<!--                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/bo-jackson.jpg" alt=""/>-->
-<!--                    <span class="name">Bo Jackson</span>-->
-<!--                    <span class="time">2:09 PM</span>-->
-<!--                    <span class="preview">It’s not that bad...</span>-->
-<!--                </li>-->
-<!--                <li class="person" data-chat="person5">-->
-<!--                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/michael-jordan.jpg" alt=""/>-->
-<!--                    <span class="name">Michael Jordan</span>-->
-<!--                    <span class="time">2:09 PM</span>-->
-<!--                    <span class="preview">Wasup for the third time like is -->
-<!--you blind bitch</span>-->
-<!--                </li>-->
-<!--                <li class="person" data-chat="person6">-->
-<!--                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/drake.jpg" alt=""/>-->
-<!--                    <span class="name">Drake</span>-->
-<!--                    <span class="time">2:09 PM</span>-->
-<!--                    <span class="preview">howdoyoudoaspace</span>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--        <div class="right">-->
-<!--            <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>-->
-<!--            <div class="chat" data-chat="person1">-->
-<!--                <div class="conversation-start">-->
-<!--                    <span>Today, 6:48 AM</span>-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    Hello,-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    it's me.-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    I was wondering...-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="chat" data-chat="person2">-->
-<!--                <div class="conversation-start">-->
-<!--                    <span>Today, 5:38 PM</span>-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    Hello, can you hear me?-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    I'm in California dreaming-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    ... about who we used to be.-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    Are you serious?-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    When we were younger and free...-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    I've forgotten how it felt before-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="chat" data-chat="person3">-->
-<!--                <div class="conversation-start">-->
-<!--                    <span>Today, 3:38 AM</span>-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    Hey human!-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    Umm... Someone took a shit in the hallway.-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    ... what.-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    Are you serious?-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    I mean...-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    It’s not that bad...-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    But we’re probably gonna need a new carpet.-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="chat" data-chat="person4">-->
-<!--                <div class="conversation-start">-->
-<!--                    <span>Yesterday, 4:20 PM</span>-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    Hey human!-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    Umm... Someone took a shit in the hallway.-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    ... what.-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    Are you serious?-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    I mean...-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    It’s not that bad...-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="chat" data-chat="person5">-->
-<!--                <div class="conversation-start">-->
-<!--                    <span>Today, 6:28 AM</span>-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    Wasup-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    Wasup-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    Wasup for the third time like is <br/>you blind bitch-->
-<!--                </div>-->
 
-<!--            </div>-->
-<!--            <div class="chat" data-chat="person6">-->
-<!--                <div class="conversation-start">-->
-<!--                    <span>Monday, 1:27 PM</span>-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    So, how's your new phone?-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    You finally have a smartphone :D-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    Drake?-->
-<!--                </div>-->
-<!--                <div class="bubble me">-->
-<!--                    Why aren't you answering?-->
-<!--                </div>-->
-<!--                <div class="bubble you">-->
-<!--                    howdoyoudoaspace-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="write">-->
-<!--                <a href="javascript:;" class="write-link attach"></a>-->
-<!--                <input type="text"/>-->
-<!--                <a href="javascript:;" class="write-link smiley"></a>-->
-<!--                <a href="javascript:;" class="write-link send"></a>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!--&lt;!&ndash; partial &ndash;&gt;-->
-<!--<script type="text/javascript">-->
-
-<!--    // $(function () {-->
-<!--    //-->
-<!--    //     // 创建websocket对象-->
-<!--    //     var ws = new WebSocket("ws://localhost:8080/user/chat");-->
-<!--    //-->
-<!--    //     // 给ws绑定事件-->
-<!--    //-->
-<!--    //     // 建立连接后需要做什么事-->
-<!--    //     ws.onopen = function () {-->
-<!--    //-->
-<!--    //     };-->
-<!--    //     // 当接收到消息时,evt是事件对象-->
-<!--    //     ws.onmessage = function (evt) {-->
-<!--    //         // 获取服务端的消息-->
-<!--    //         var dataStr = evt.data;-->
-<!--    //-->
-<!--    //         var result = JSON.parse(dataStr);-->
-<!--    //-->
-<!--    //-->
-<!--    //         // 是否是系统消息-->
-<!--    //         if (result.isSystem) {-->
-<!--    //             // 更新在线好友列表显示-->
-<!--    //             var onlineUserList = result.message;-->
-<!--    //-->
-<!--    //             var onlineUserHtml = "";-->
-<!--    //-->
-<!--    //             layer.msg("123")-->
-<!--    //-->
-<!--    //             for(var user of onlineUserList){-->
-<!--    //                 var headerPicturePath = user.headerPicturePath;-->
-<!--    //                 var name = user.name;-->
-<!--    //                 var message = user.message;-->
-<!--    //                 var myDate = new Date;-->
-<!--    //                 var hour = myDate.getHours();-->
-<!--    //                 var min = myDate.getMinutes();-->
-<!--    //                 onlineUserHtml +="<li class=\"person\">\n" +-->
-<!--    //                     "                    <img src="+headerPicturePath+" alt=\"\"/>\n" +-->
-<!--    //                     "                    <span class=\"name\">"+name+"</span>\n" +-->
-<!--    //                     "                    <span class=\"time\">"+hour+":"+min+"</span>\n" +-->
-<!--    //                     "                    <span class=\"preview\">"+message+"</span>\n" +-->
-<!--    //                     "                </li>"-->
-<!--    //             }-->
-<!--    //-->
-<!--    //             $("#onlineUsers").append(onlineUserHtml);-->
-<!--    //-->
-<!--    //             // 好友上限提醒，在网页中底下弹出小框框提醒包括头像和用户名-->
-<!--    //-->
-<!--    //         } else {-->
-<!--    //-->
-<!--    //         }-->
-<!--    //-->
-<!--    //-->
-<!--    //     };-->
-<!--    //-->
-<!--    //     ws.onclose = function () {-->
-<!--    //-->
-<!--    //     };-->
-<!--    //-->
-<!--    //     ws.onerror = function () {-->
-<!--    //-->
-<!--    //     };-->
-<!--    //-->
-<!--    //-->
-<!--    // })-->
-<!--    //-->
-<!--    // $(function (){-->
-<!--    //     layer.msg("111")-->
-<!--    // })-->
-
-
-<!--</script>-->
-
-<!--</body>-->
-<!--</html>-->
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
@@ -311,7 +41,6 @@
         <div class="right">
             <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
             <div id="chatRecordDiv">
-
                 <div class="chat" data-chat="person2">
                     <div class="conversation-start">
                         <span>Today, 5:38 PM</span>
@@ -356,45 +85,7 @@
 <script type="text/javascript">
 
 
-    // $(function () {
-    //
-    //     $(".person").click(function () {
-    //
-    //         let friends = {
-    //                 list: document.querySelector('ul.people'),
-    //                 all: document.querySelectorAll('.left .person'),
-    //                 name: ''
-    //             },
-    //
-    //             chat = {
-    //                 container: document.querySelector('.container .right'),
-    //                 current: null,
-    //                 person: null,
-    //                 name: document.querySelector('.container .right .top .name')
-    //             };
-    //
-    //
-    //         friends.all.forEach(f => {
-    //             f.addEventListener('mousedown', () => {
-    //                 f.classList.contains('active') || setAciveChat(f);
-    //             });
-    //         });
-    //
-    //         function setAciveChat(f) {
-    //             friends.list.querySelector('.active').classList.remove('active');
-    //             f.classList.add('active');
-    //             chat.current = chat.container.querySelector('.active-chat');
-    //             chat.person = f.getAttribute('data-chat');
-    //             layer.msg(chat.person)
-    //             chat.current.classList.remove('active-chat');
-    //             chat.container.querySelector('[data-chat="' + chat.person + '"]').classList.add('active-chat');
-    //             friends.name = f.querySelector('.name').innerText;
-    //             chat.name.innerHTML = friends.name;
-    //         }
-    //
-    //     })
-    //
-    // })
+
 
     function keydown(){
         if(event.keyCode==13){
@@ -448,7 +139,7 @@
 
                         if (result == "SUCCESS") {
 
-                            alert("在这里1")
+
 
                             var recordList = response.data;
 
@@ -458,9 +149,9 @@
 
 
                             if(recordList==null){
-                                alert("在这里2")
+
                             }else{
-                                alert("在这里3")
+
                                 // 编写html
                                 for (var record of recordList) {
 
@@ -468,7 +159,7 @@
                                     var message = record.message;
                                     if (record.isPicture) {
                                         chatRecordHtml = "<div class=\"bubble you\">\n" +
-                                            "                <img width=\"100\" src="+picturePath+">\n" +
+                                            "                <img width=\"100\" src="+message+">\n" +
                                             "            </div>"
                                     }else{
                                         chatRecordHtml += "<div class=\"bubble " + type + "\">\n" +
@@ -478,6 +169,7 @@
                                 }
                                 // 插入元素
                                 // 先清空
+                                layer.msg("哈哈")
                                 $("#"+toLoginAcct+"ChatRecord").empty();
                                 $("#"+toLoginAcct+"ChatRecord").append(chatRecordHtml);
                             }
@@ -596,10 +288,38 @@
                 var min = myDate.getMinutes();
                 // 1.如果当前用户没有打开该好友的聊天窗口
                 // 将该好友更新到好友列表的最上方
-                // 删除旧数据，删除该好友的在好友列表中旧元素，插入新的
-                // 1.1 查找该好友的元素,删除
-                // friends.list.querySelector('[data-chat="' + loginAcct + '"]').remove();
                 // 插入到好友列表前面
+
+                // var person = $("#"+loginAcct);
+                // var person_copy = person;
+                // person.remove();
+                // // 修改preview
+                // person_copy.children(".preview").text(message);
+                // // 修改时间
+                // person_copy.children(".time").text(hour +":" + min);
+                // // 插入
+                // $(".people").prepend(person_copy);
+
+
+
+
+
+                var chatMessageHtml ="";
+                // 判断是否是图片
+                if(result.isPicture){
+                    // 是图片
+                    // 插入聊天框
+                    chatMessageHtml = "<div class=\"bubble you\">\n" +
+                        "                <img width=\"100\" src="+message+">\n" +
+                        "            </div>"
+                    message = "[图片]";
+                }else{
+                    // 1.3 将消息插入到聊天窗口
+                    chatMessageHtml = "<div class=\"bubble you\">\n" +
+                        "                        "+message+"\n" +
+                        "                    </div>";
+                }
+
                 var person = $("#"+loginAcct);
                 var person_copy = person;
                 person.remove();
@@ -611,35 +331,6 @@
                 $(".people").prepend(person_copy);
 
 
-
-
-                // 1.2 插入到好友列表最前面
-                // $(".people").prepend("<li id="+loginAcct+" class=\"person\" data-chat="+loginAcct+">\n" +
-                //     "                    <img src="+headerPicturePath+" alt=\"\"/>\n" +
-                //     "                    <span class=\"name\">"+name+"</span>\n" +
-                //     "                    <span class=\"time\">"+ hour +":" + min +"</span>\n" +
-                //     "                    <span class=\"preview\">"+message+"</span>\n" +
-                //     "                </li>")
-
-                var chatMessageHtml ="";
-                // 判断是否是图片
-                if(result.isPicture){
-
-                    var picturePath = result.message;
-
-                    // 是图片
-                    // 插入聊天框
-                    chatMessageHtml = "<div class=\"bubble you\">\n" +
-                        "                <img width=\"100\" src="+picturePath+">\n" +
-                        "            </div>"
-                }else{
-                    // 1.3 将消息插入到聊天窗口
-                    chatMessageHtml = "<div class=\"bubble you\">\n" +
-                        "                        "+message+"\n" +
-                        "                    </div>";
-                }
-
-
                 $("#"+loginAcct+"ChatRecord").append(chatMessageHtml);
 
 
@@ -648,20 +339,6 @@
                 layer.tips('新消息', '#'+loginAcct);
 
 
-
-                // // 更新
-                // friends = {
-                //     list: document.querySelector('ul.people'),
-                //     all: document.querySelectorAll('.left .person'),
-                //     name: ''
-                // };
-                //
-                // chat = {
-                //     container: document.querySelector('.container .right'),
-                //     current: null,
-                //     person: null,
-                //     name: document.querySelector('.container .right .top .name')
-                // };
 
             }
 
@@ -712,7 +389,7 @@
 
                         // 获取好友的账号
 
-                        var toName =  $(".chat active-chat").attr("data-chat");
+                        var toName =  $(".active-chat").attr("data-chat");
                         //var toName = friends.list.querySelector('.active').getAttribute("data-chat");
 
                         // 插入聊天框
@@ -775,6 +452,17 @@
             $("#onlineUsers").prepend(person_copy);
 
             ws.send(JSON.stringify(json));
+
+            console.log('aaa');
+            console.log($('.active-chat').scrollHeight);
+            console.log($('.active-chat').clientHeight);
+            console.log($('.active-chat').scrollTop);
+            console.log('-----------')
+            setTimeout(()=>{
+                $('.active-chat').scrollTop = $('.active-chat').scrollHeight;
+                console.log($('.active-chat').scrollHeight);
+                console.log($('.active-chat').scrollTop);
+            },300)
 
         })
 

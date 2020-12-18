@@ -41,7 +41,6 @@
         <div class="right">
             <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
             <div id="chatRecordDiv">
-
                 <div class="chat" data-chat="person2">
                     <div class="conversation-start">
                         <span>Today, 5:38 PM</span>
@@ -160,7 +159,7 @@
                                     var message = record.message;
                                     if (record.isPicture) {
                                         chatRecordHtml = "<div class=\"bubble you\">\n" +
-                                            "                <img width=\"100\" src="+picturePath+">\n" +
+                                            "                <img width=\"100\" src="+message+">\n" +
                                             "            </div>"
                                     }else{
                                         chatRecordHtml += "<div class=\"bubble " + type + "\">\n" +
@@ -170,6 +169,7 @@
                                 }
                                 // 插入元素
                                 // 先清空
+                                layer.msg("哈哈")
                                 $("#"+toLoginAcct+"ChatRecord").empty();
                                 $("#"+toLoginAcct+"ChatRecord").append(chatRecordHtml);
                             }
@@ -288,10 +288,38 @@
                 var min = myDate.getMinutes();
                 // 1.如果当前用户没有打开该好友的聊天窗口
                 // 将该好友更新到好友列表的最上方
-                // 删除旧数据，删除该好友的在好友列表中旧元素，插入新的
-                // 1.1 查找该好友的元素,删除
-                // friends.list.querySelector('[data-chat="' + loginAcct + '"]').remove();
                 // 插入到好友列表前面
+
+                // var person = $("#"+loginAcct);
+                // var person_copy = person;
+                // person.remove();
+                // // 修改preview
+                // person_copy.children(".preview").text(message);
+                // // 修改时间
+                // person_copy.children(".time").text(hour +":" + min);
+                // // 插入
+                // $(".people").prepend(person_copy);
+
+
+
+
+
+                var chatMessageHtml ="";
+                // 判断是否是图片
+                if(result.isPicture){
+                    // 是图片
+                    // 插入聊天框
+                    chatMessageHtml = "<div class=\"bubble you\">\n" +
+                        "                <img width=\"100\" src="+message+">\n" +
+                        "            </div>"
+                    message = "[图片]";
+                }else{
+                    // 1.3 将消息插入到聊天窗口
+                    chatMessageHtml = "<div class=\"bubble you\">\n" +
+                        "                        "+message+"\n" +
+                        "                    </div>";
+                }
+
                 var person = $("#"+loginAcct);
                 var person_copy = person;
                 person.remove();
@@ -301,29 +329,6 @@
                 person_copy.children(".time").text(hour +":" + min);
                 // 插入
                 $(".people").prepend(person_copy);
-
-
-
-
-
-
-                var chatMessageHtml ="";
-                // 判断是否是图片
-                if(result.isPicture){
-
-                    var picturePath = result.message;
-
-                    // 是图片
-                    // 插入聊天框
-                    chatMessageHtml = "<div class=\"bubble you\">\n" +
-                        "                <img width=\"100\" src="+picturePath+">\n" +
-                        "            </div>"
-                }else{
-                    // 1.3 将消息插入到聊天窗口
-                    chatMessageHtml = "<div class=\"bubble you\">\n" +
-                        "                        "+message+"\n" +
-                        "                    </div>";
-                }
 
 
                 $("#"+loginAcct+"ChatRecord").append(chatMessageHtml);
@@ -384,7 +389,7 @@
 
                         // 获取好友的账号
 
-                        var toName =  $(".chat active-chat").attr("data-chat");
+                        var toName =  $(".active-chat").attr("data-chat");
                         //var toName = friends.list.querySelector('.active').getAttribute("data-chat");
 
                         // 插入聊天框

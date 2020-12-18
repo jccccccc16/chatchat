@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -73,8 +74,10 @@ public class RedisUtils {
 
 
         String key = createKey(fromLoginAcct, toLoginAcct);
-
-        return redisTemplate.opsForList().range(key, 0, 10);
+        List<Record> recordList = redisTemplate.opsForList().range(key, 0, 7);
+        // 反转
+        Collections.reverse(recordList);
+        return recordList;
 
     }
 
