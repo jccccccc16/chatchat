@@ -39,7 +39,7 @@
             </ul>
         </div>
         <div class="right">
-            <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
+            <div class="top"><span>To: <span class="name" id="toNameSpan">Dog Woofson</span></span></div>
             <div id="chatRecordDiv">
                 <div class="chat" data-chat="person2">
                     <div class="conversation-start">
@@ -99,6 +99,13 @@
 
         $(".person[data-chat=person2]").attr("class","person active");
         $(".chat[data-chat=person2]").attr("class","chat active-chat");
+
+
+
+        // 修改聊天框山的to：
+        function modifyTo(toName){
+            $("#toNameSpan").text(toName);
+        }
 
 
         // 当好友列表中的好友被选中时
@@ -188,6 +195,7 @@
                 })
 
                 // 聊天窗口设置为选中
+                modifyTo(toLoginAcct);
                 $("#"+toLoginAcct+"ChatRecord").attr("class", "chat active-chat");
 
             })
@@ -452,17 +460,6 @@
             $("#onlineUsers").prepend(person_copy);
 
             ws.send(JSON.stringify(json));
-
-            console.log('aaa');
-            console.log($('.active-chat').scrollHeight);
-            console.log($('.active-chat').clientHeight);
-            console.log($('.active-chat').scrollTop);
-            console.log('-----------')
-            setTimeout(()=>{
-                $('.active-chat').scrollTop = $('.active-chat').scrollHeight;
-                console.log($('.active-chat').scrollHeight);
-                console.log($('.active-chat').scrollTop);
-            },300)
 
         })
 
