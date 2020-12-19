@@ -279,6 +279,8 @@ public class ChatEndpoint {
         // 广播给所有用户
         offlineBroadcastAll(message);
 
+        logger.info("用户："+currentLoginAcct+" 断开连接");
+
 
 //
 //        UserVO currentUser = getCurrentUser();

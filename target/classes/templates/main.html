@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="layui/css/layui.css"  media="all">
-
-
 </head>
 <body>
 <!-- partial:index.partial.html -->
@@ -24,6 +22,8 @@
                 <input type="text" placeholder="Search"/>
                 <a href="javascript:;" class="search"></a>
             </div>
+
+
 
             <ul class="people" id="onlineUsers">
 
@@ -39,7 +39,7 @@
             </ul>
         </div>
         <div class="right">
-            <div class="top"><span>To: <span class="name" id="toNameSpan">Dog Woofson</span></span></div>
+            <div class="top"><span>To: <span class="name" id="toNameSpan">Dog Woofson</span></span><span>&nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;&nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  Current User: <span class="name" align="right" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.originalUser.loginAcct}"></span></span></div>
             <div id="chatRecordDiv">
                 <div class="chat" data-chat="person2">
                     <div class="conversation-start">
@@ -95,7 +95,12 @@
 
 
 
+
+
     $(function () {
+
+
+
 
         $(".person[data-chat=person2]").attr("class","person active");
         $(".chat[data-chat=person2]").attr("class","chat active-chat");
@@ -270,10 +275,6 @@
 
                     $("#"+offLineLoginAcct).remove();
                     $("#"+offLineLoginAcct+"ChatRecord").remove();
-
-
-
-
 
                 }
 
