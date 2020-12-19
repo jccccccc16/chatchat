@@ -23,4 +23,7 @@ public class ChatChatConstant {
     public static final String ATTR_LOGIN_ACCT = "loginAcct";
     public static final Integer ATTR_IS_LOGIN = 1;
     public static final String MESSAGE_USER_ALREADY_LOGIN = "该用户已经登录";
+
+    public static final Integer SET_USER_LOGIN = 1;
+    public static final Integer SET_USER_LOGOUT = 0;
 }

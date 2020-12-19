@@ -58,7 +58,7 @@ public class ChatAuthenticationSuccessHandler implements AuthenticationSuccessHa
         UserPOExample userPOExample = new UserPOExample();
         userPOExample.createCriteria().andLoginAcctEqualTo(loginAcct);
         UserPO userPO = new UserPO();
-        userPO.setIsLogin(1);
+        userPO.setIsLogin(ChatChatConstant.SET_USER_LOGIN);
         userPOMapper.updateByExampleSelective(userPO,userPOExample);
 
 

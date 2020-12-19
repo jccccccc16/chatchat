@@ -263,14 +263,13 @@
                     $("#chatRecordDiv").append(chatRecordListHtml);
 
                     // 好友上限提醒，在网页中底下弹出小框框提醒包括头像和用户名-->
-                }else{
+                }else if(result.type=="offlineMessage"){
 
                     var offlineUser = result.message;
-                    var loginAcct = offlineUser.loginAcct;
+                    var offLineLoginAcct = offlineUser.loginAcct;
 
-                    // 在好友列表中删除该用户
-
-                    // 删除聊天
+                    $("#"+offLineLoginAcct).remove();
+                    $("#"+offLineLoginAcct+"ChatRecord").remove();
 
                 }
 
@@ -353,6 +352,9 @@
         };
 
         ws.onclose = function () {
+
+
+
 
         };
 

@@ -47,6 +47,20 @@ public class ChatEndpointUserMapper {
 
 
 
+
+    @Override
+    public boolean equals(Object obj) {
+
+        ChatEndpointUserMapper otherMapper = (ChatEndpointUserMapper) (obj);
+        String thisLoginAcct = this.getUserVO().getLoginAcct();
+        String otherLoginAcct = otherMapper.getUserVO().getLoginAcct();
+        if(thisLoginAcct.equals(otherLoginAcct)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     @Override
     public String toString() {
         return "ChatEndpointUserMapper{" +
