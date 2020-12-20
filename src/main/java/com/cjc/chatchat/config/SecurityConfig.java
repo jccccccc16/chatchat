@@ -39,6 +39,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private ChatAuthenticationProvider chatAuthenticationProvider;
 
+    @Resource
+    private ChatLogoutSuccessHandler chatLogoutSuccessHandler;
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -75,6 +79,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/user/login.json")
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
+                .and()
+                .logout()
+                .logoutUrl("/user/logout.json")
+                .logoutSuccessHandler(chatLogoutSuccessHandler)
                 .and()
                 .csrf()
                 .disable();

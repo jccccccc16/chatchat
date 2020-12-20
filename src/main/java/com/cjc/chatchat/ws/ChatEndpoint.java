@@ -262,15 +262,15 @@ public class ChatEndpoint {
         onlineChatEndpointUserMapperList.remove(currentMapper);
 
 
-        // 1.将用户表的isLogin字段设置为0
-
-        UserPOExample userPOExample = new UserPOExample();
-        UserPOExample.Criteria criteria = userPOExample.createCriteria();
-        criteria.andLoginAcctEqualTo(currentLoginAcct);
-        UserPO userPO = new UserPO();
-        userPO.setIsLogin(ChatChatConstant.SET_USER_LOGOUT);
-        userPOMapper.updateByExampleSelective(userPO, userPOExample);
-
+//        // 1.将用户表的isLogin字段设置为0
+//
+//        UserPOExample userPOExample = new UserPOExample();
+//        UserPOExample.Criteria criteria = userPOExample.createCriteria();
+//        criteria.andLoginAcctEqualTo(currentLoginAcct);
+//        UserPO userPO = new UserPO();
+//        userPO.setIsLogin(ChatChatConstant.SET_USER_LOGOUT);
+//        userPOMapper.updateByExampleSelective(userPO, userPOExample);
+//
 
         // 封装离线消息
 

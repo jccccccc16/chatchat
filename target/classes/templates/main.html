@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,20 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
 </head>
 <body>
 <!-- partial:index.partial.html -->
 <div class="wrapper">
     <div class="container">
+        <p id="loginAcctP" hidden
+           th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.originalUser.loginAcct}"></p>
         <div class="left">
             <div class="top">
                 <input type="text" placeholder="Search"/>
                 <a href="javascript:;" class="search"></a>
             </div>
-
-
-
             <ul class="people" id="onlineUsers">
 
 
@@ -38,8 +35,16 @@
 
             </ul>
         </div>
+<!--        th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.originalUser.loginAcct}"-->
         <div class="right">
-            <div class="top"><span>To: <span class="name" id="toNameSpan">Dog Woofson</span></span><span>&nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;&nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  Current User: <span class="name" align="right" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.originalUser.loginAcct}"></span></span></div>
+            <div class="top"><span>To: <span class="name" id="toNameSpan">Dog Woofson</span></span><span>&nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; Current User: <span><div class="dropdown" style="float:right;">
+  <button class="dropbtn"><span th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.originalUser.loginAcct}" class="name">当前用户</span></button>
+  <div class="dropdown-content">
+    <a id="logoutBtn">注销登录</a>
+  </div>
+</div></span></span>
+
+            </div>
             <div id="chatRecordDiv">
                 <div class="chat" data-chat="person2">
                     <div class="conversation-start">
@@ -85,30 +90,18 @@
 <script type="text/javascript">
 
 
-
-
-    function keydown(){
-        if(event.keyCode==13){
+    function keydown() {
+        if (event.keyCode == 13) {
             $("#sendMessage").click();
         }
     }
 
 
-
-
-
     $(function () {
 
 
-
-
-        $(".person[data-chat=person2]").attr("class","person active");
-        $(".chat[data-chat=person2]").attr("class","chat active-chat");
-
-
-
         // 修改聊天框山的to：
-        function modifyTo(toName){
+        function modifyTo(toName) {
             $("#toNameSpan").text(toName);
         }
 
@@ -118,16 +111,13 @@
         $(".person").click(function () {
 
 
-
-
-
             // 当好友列表中的好友被选中时
             // 元素被选中，并且显示聊天记录
             $(".person").click(function () {
 
                 // 将已选中的元素去除选中属性
-                $(".active").attr("class","person");
-                $(".active-chat").attr("class","chat");
+                $(".active").attr("class", "person");
+                $(".active-chat").attr("class", "chat");
 
 
                 // 在好友列表中设置为选中
@@ -139,18 +129,16 @@
                 console.info(toLoginAcct);
 
 
-
                 // 查询聊天记录
                 $.ajax({
-                    "url": "chat/get/message/record.json?toLoginAcct="+toLoginAcct,
-                    "type":"GET",
+                    "url": "chat/get/message/record.json?toLoginAcct=" + toLoginAcct,
+                    "type": "GET",
                     "dataType": "json",
                     "success": function (response) {
 
                         var result = response.result;
 
                         if (result == "SUCCESS") {
-
 
 
                             var recordList = response.data;
@@ -160,9 +148,9 @@
                             var chatRecordHtml = "";
 
 
-                            if(recordList==null){
+                            if (recordList == null) {
 
-                            }else{
+                            } else {
 
                                 // 编写html
                                 for (var record of recordList) {
@@ -171,9 +159,9 @@
                                     var message = record.message;
                                     if (record.isPicture) {
                                         chatRecordHtml = "<div class=\"bubble you\">\n" +
-                                            "                <img width=\"100\" src="+message+">\n" +
+                                            "                <img width=\"100\" src=" + message + ">\n" +
                                             "            </div>"
-                                    }else{
+                                    } else {
                                         chatRecordHtml += "<div class=\"bubble " + type + "\">\n" +
                                             "                        " + message + "\n" +
                                             "                    </div>";
@@ -182,10 +170,9 @@
                                 // 插入元素
                                 // 先清空
                                 layer.msg("哈哈")
-                                $("#"+toLoginAcct+"ChatRecord").empty();
-                                $("#"+toLoginAcct+"ChatRecord").append(chatRecordHtml);
+                                $("#" + toLoginAcct + "ChatRecord").empty();
+                                $("#" + toLoginAcct + "ChatRecord").append(chatRecordHtml);
                             }
-
 
 
                         } else if (result == "FAILED") {
@@ -201,7 +188,7 @@
 
                 // 聊天窗口设置为选中
                 modifyTo(toLoginAcct);
-                $("#"+toLoginAcct+"ChatRecord").attr("class", "chat active-chat");
+                $("#" + toLoginAcct + "ChatRecord").attr("class", "chat active-chat");
 
             })
 
@@ -231,7 +218,7 @@
             if (result.isSystem) {
 
                 // 并且是上线消息
-                if(result.type=="onlineMessage"){
+                if (result.type == "onlineMessage") {
                     // 更新在线好友列表显示-->
                     var onlineUserList = result.message;
 
@@ -268,18 +255,15 @@
                     $("#chatRecordDiv").append(chatRecordListHtml);
 
                     // 好友上限提醒，在网页中底下弹出小框框提醒包括头像和用户名-->
-                }else if(result.type=="offlineMessage"){
+                } else if (result.type == "offlineMessage") {
 
                     var offlineUser = result.message;
                     var offLineLoginAcct = offlineUser.loginAcct;
 
-                    $("#"+offLineLoginAcct).remove();
-                    $("#"+offLineLoginAcct+"ChatRecord").remove();
+                    $("#" + offLineLoginAcct).remove();
+                    $("#" + offLineLoginAcct + "ChatRecord").remove();
 
                 }
-
-
-
 
 
             } else { // 如果是好友消息
@@ -290,8 +274,7 @@
                 var fromUser = result.fromUser;
                 var loginAcct = fromUser.loginAcct;
                 var name = fromUser.username;
-                var headerPicturePath =  fromUser.headerPicturePath;
-
+                var headerPicturePath = fromUser.headerPicturePath;
 
 
                 // 时间
@@ -313,43 +296,38 @@
                 // $(".people").prepend(person_copy);
 
 
-
-
-
-                var chatMessageHtml ="";
+                var chatMessageHtml = "";
                 // 判断是否是图片
-                if(result.isPicture){
+                if (result.isPicture) {
                     // 是图片
                     // 插入聊天框
                     chatMessageHtml = "<div class=\"bubble you\">\n" +
-                        "                <img width=\"100\" src="+message+">\n" +
+                        "                <img width=\"100\" src=" + message + ">\n" +
                         "            </div>"
                     message = "[图片]";
-                }else{
+                } else {
                     // 1.3 将消息插入到聊天窗口
                     chatMessageHtml = "<div class=\"bubble you\">\n" +
-                        "                        "+message+"\n" +
+                        "                        " + message + "\n" +
                         "                    </div>";
                 }
 
-                var person = $("#"+loginAcct);
+                var person = $("#" + loginAcct);
                 var person_copy = person;
                 person.remove();
                 // 修改preview
                 person_copy.children(".preview").text(message);
                 // 修改时间
-                person_copy.children(".time").text(hour +":" + min);
+                person_copy.children(".time").text(hour + ":" + min);
                 // 插入
                 $(".people").prepend(person_copy);
 
 
-                $("#"+loginAcct+"ChatRecord").append(chatMessageHtml);
-
+                $("#" + loginAcct + "ChatRecord").append(chatMessageHtml);
 
 
                 // 1.3 提醒有好友登录
-                layer.tips('新消息', '#'+loginAcct);
-
+                layer.tips('新消息', '#' + loginAcct);
 
 
             }
@@ -358,28 +336,64 @@
 
         ws.onclose = function () {
 
+            console.info("执行onclose方法");
+
+        }
 
 
 
-        };
+
+
+
 
         ws.onerror = function () {
 
         };
 
 
+        // 注销登录
+        $("#logoutBtn").click(function (){
+
+            layer.load(2);
+            var currentLoginAcct = $("#loginAcctP").text();
+
+            $.ajax({
+
+                "url": "user/logout.json?loginAcct="+currentLoginAcct,
+                "type": "GET",
+                "dataType": "json",
+                "success": function (response) {
+                    var result = response.result;
+
+                    if (result == "SUCCESS") {
+                        layer.closeAll('loading');
+                        layer.msg("注销成功");
+                        ws.close();
+                        window.location.href="http://localhost:8080";
+                    }else{
+                        layer.closeAll('loading');
+                        layer.msg(response.message);
+                    }
+                }
+
+            })
+
+
+        })
+
+
         // 发送文件
-        $("#uploadFile").click(function (){
+        $("#uploadFile").click(function () {
             $("#uploadFileInput").click();
         })
 
-        $("#uploadFileInput").change(function (event){
+        $("#uploadFileInput").change(function (event) {
 
             var file = event.target.files[0];
 
             var formData = new FormData();
 
-            formData.append("picture",file);
+            formData.append("picture", file);
 
             // 弹出加载层
             layer.load(2);
@@ -395,7 +409,7 @@
 
                     var result = response.result;
 
-                    if(result == "SUCCESS") {
+                    if (result == "SUCCESS") {
                         // 关闭加载层
                         layer.closeAll('loading');
 
@@ -404,22 +418,22 @@
 
                         // 获取好友的账号
 
-                        var toName =  $(".active-chat").attr("data-chat");
+                        var toName = $(".active-chat").attr("data-chat");
                         //var toName = friends.list.querySelector('.active').getAttribute("data-chat");
 
                         // 插入聊天框
                         var pictureChatHtml = "<div class=\"bubble me\">\n" +
-                            "                <img width=\"100\" src="+picturePath+">\n" +
+                            "                <img width=\"100\" src=" + picturePath + ">\n" +
                             "            </div>"
 
-                        $("#"+toName+"ChatRecord").append(pictureChatHtml);
+                        $("#" + toName + "ChatRecord").append(pictureChatHtml);
 
                         // 发送给好友
-                        var json = {"isPicture":true,"toName": toName, "message": picturePath};
+                        var json = {"isPicture": true, "toName": toName, "message": picturePath};
                         ws.send(JSON.stringify(json));
                     }
 
-                    if(result == "FAILED") {
+                    if (result == "FAILED") {
                         // 关闭加载层
                         layer.closeAll('loading');
                         layer.msg(response.message);
@@ -433,12 +447,7 @@
             })
 
 
-
-
-
         })
-
-
 
 
         // 发送消息
@@ -451,16 +460,16 @@
             $("#messageInput").val("");
 
             // 获取接收者的用户名
-            var toName =  $(".active-chat").attr("data-chat");
-           // var toName = friends.list.querySelector('.active').getAttribute("data-chat");
+            var toName = $(".active-chat").attr("data-chat");
+            // var toName = friends.list.querySelector('.active').getAttribute("data-chat");
 
-            var json = {"isPicture":false,"toName": toName, "message": data};
+            var json = {"isPicture": false, "toName": toName, "message": data};
 
             $(".active-chat").append('<div class="bubble me">\n' +
-                '                        '+data+'\n' +
+                '                        ' + data + '\n' +
                 '                    </div>');
 
-            var person = $("#"+toName);
+            var person = $("#" + toName);
             var person_copy = person;
             person.remove();
             person_copy.children(".preview").text(data);
@@ -470,24 +479,36 @@
 
         })
 
+
         // 禁止刷新
-        $(document).ready(function() {
-            $(document).bind("keydown",function(e){
-                e=window.event||e;
-                if(e.keyCode==116){
+        $(document).ready(function () {
+            $(document).bind("keydown", function (e) {
+                e = window.event || e;
+                if (e.keyCode == 116) {
                     e.keyCode = 0;
                     return false;
                 }
             });
         });
 
-        $(document).ready(function() {
-            $(document).bind("contextmenu",function(e) {
+        $(document).ready(function () {
+            $(document).bind("contextmenu", function (e) {
                 layer.msg("此应用不允许刷新");
                 return false;
             });
         });
 
+
+    })
+
+
+    $(function () {
+        // 刚登录进来的用户，打开该页面后选中自己
+        var currentLoginAcct = $("#loginAcctP").text();
+        console.info("currentLoginAcct: " + currentLoginAcct);
+        $(".person[data-chat='" + currentLoginAcct + "']").attr("class", "person active");
+        $(".chat[data-chat='" + currentLoginAcct + "']").attr("class", "chat active-chat");
+        $(".person[data-chat='" + currentLoginAcct + "']").click();
 
     })
 

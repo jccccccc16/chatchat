@@ -5,11 +5,15 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.comm.ResponseMessage;
 import com.aliyun.oss.model.PutObjectResult;
 import com.cjc.chatchat.constant.ChatChatConstant;
+import com.cjc.chatchat.entity.SecurityUser;
 import com.cjc.chatchat.entity.UserPO;
+import com.cjc.chatchat.entity.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextImpl;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -200,6 +204,15 @@ public class ChatUtil {
             }
         }
 
+    }
+
+
+    public static UserPO getCurrentUser(HttpSession httpSession){
+
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+        SecurityUser loginUser = (SecurityUser) securityContextImpl.getAuthentication().getPrincipal();
+        UserPO originalUser = loginUser.getOriginalUser();
+        return originalUser;
     }
 
 
