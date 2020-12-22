@@ -251,6 +251,8 @@ public class ChatEndpoint {
     public void onClose(Session session) {
 
 
+
+
         UserVO currentUser = getCurrentUser();
         String currentLoginAcct = currentUser.getLoginAcct();
 
@@ -262,15 +264,19 @@ public class ChatEndpoint {
         onlineChatEndpointUserMapperList.remove(currentMapper);
 
 
-//        // 1.将用户表的isLogin字段设置为0
-//
-//        UserPOExample userPOExample = new UserPOExample();
-//        UserPOExample.Criteria criteria = userPOExample.createCriteria();
-//        criteria.andLoginAcctEqualTo(currentLoginAcct);
-//        UserPO userPO = new UserPO();
-//        userPO.setIsLogin(ChatChatConstant.SET_USER_LOGOUT);
-//        userPOMapper.updateByExampleSelective(userPO, userPOExample);
-//
+
+        // 1.将用户表的isLogin字段设置为0，当用户直接关闭浏览器，而不是注销时也能将用户状态设置为0
+
+        UserPOExample userPOExample = new UserPOExample();
+        UserPOExample.Criteria criteria = userPOExample.createCriteria();
+        criteria.andLoginAcctEqualTo(currentLoginAcct);
+        UserPO userPO = new UserPO();
+        userPO.setIsLogin(ChatChatConstant.SET_USER_LOGOUT);
+        userPOMapper.updateByExampleSelective(userPO, userPOExample);
+        logger.info("将用户: "+currentLoginAcct+" 设置为离线状态");
+
+        logger.info("用户： "+currentLoginAcct+" 登出成功");
+
 
         // 封装离线消息
 
@@ -287,7 +293,8 @@ public class ChatEndpoint {
 //        String loginAcct = currentUser.getLoginAcct();
 //
 //        logger.info("用户："+loginAcct+"离线");
-//
+
+
 //        int index = 0;
 //        List<UserVO> userVOListFromMapper = getUserVOListFromMapper();
 //        for (UserVO userVO : userVOListFromMapper) {
