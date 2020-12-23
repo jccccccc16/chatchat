@@ -26,13 +26,13 @@
 
             </ul>
         </div>
-<!--        th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.originalUser.loginAcct}"-->
+        <!--        th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.originalUser.loginAcct}"-->
         <div class="right">
             <div class="top">
                 <span>To:
                     <span class="name" id="toNameSpan">Dog Woofson</span>
                 </span>
-            <span>&nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; Current User: <span>
+                <span>&nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; Current User: <span>
             <div class="dropdown" style="float:right;">
                 <button class="dropbtn">
                     <span th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.originalUser.loginAcct}" class="name">当前用户</span>
@@ -44,7 +44,7 @@
             </span>
             </span>
 
-        </div>
+            </div>
             <div id="chatRecordDiv">
                 <div class="chat" data-chat="person2">
                     <div class="conversation-start">
@@ -188,7 +188,7 @@
 
 
         // 创建websocket对象-->
-        var ws = new WebSocket("ws://localhost:8080/user/chat");
+        var ws = new WebSocket("ws://localhost:8080/user/multi/chat");
 
         // 给ws绑定事件-->
 
@@ -230,20 +230,12 @@
                             "                    <span class=\"time\">" + hour + ":" + min + "</span>\n" +
                             "                    <span class=\"preview\">" + "</span>\n" +
                             "                </li>"
-                        // 初始化聊天记录
-                        chatRecordListHtml +=
-                            "            <div id=" + loginAcct + "ChatRecord" + " class=\"chat\" data-chat=" + loginAcct + ">\n" +
-                            "                <div class=\"conversation-start\">\n" +
-                            "                    <span>" + hour + ":" + min + "</span>\n" +
-                            "                </div>\n" +
-                            "            </div>"
                     }
 
                     // 将在线用户添加到到好友列表中
                     $("#onlineUsers").append(onlineUserHtml);
 
-                    // 初始化聊天窗口
-                    $("#chatRecordDiv").append(chatRecordListHtml);
+
 
                     setTimeout(function (){
                         $(".person")[0].click();

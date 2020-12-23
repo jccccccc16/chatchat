@@ -3,6 +3,8 @@ package com.cjc.chatchat.util;
 import com.cjc.chatchat.entity.Record;
 import com.cjc.chatchat.entity.UserVO;
 import com.cjc.chatchat.ws.ChatEndpoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,8 @@ public class RedisUtils {
 
     @Autowired
     private RedisTemplate<String,Record> redisTemplate;
+
+    private Logger logger = LoggerFactory.getLogger(RedisUtils.class);
 
 
 
@@ -73,6 +77,7 @@ public class RedisUtils {
     public List<Record> getRecordList(String fromLoginAcct,String toLoginAcct){
 
 
+
         String key = createKey(fromLoginAcct, toLoginAcct);
         List<Record> recordList = redisTemplate.opsForList().range(key, 0, 7);
         // 反转
@@ -80,6 +85,56 @@ public class RedisUtils {
         return recordList;
 
     }
+
+    /**
+     * 多人聊天室获取用户聊天记录
+     * @param loginAcct
+     * @return
+     */
+    public List<Record> getMultiRecordList(String loginAcct){
+
+        List<Record> recordList = redisTemplate.opsForList().range(loginAcct, 0, 9);
+        // 反转
+        Collections.reverse(recordList);
+        return recordList;
+
+    }
+
+
+
+
+    /***
+     * 多人聊天室，插入一条聊天消息
+     * 为当前在线的用户也保存
+     * key为用户的账号
+     * 以当前用户的账号为key，为每一个用户都存储一条
+     */
+
+    public void insertMultiMessageRecord(UserVO sendUserVO,List<UserVO> multiCurrentUserList ,String message,boolean isPicture){
+
+
+        String senderLoginAcct = sendUserVO.getLoginAcct();
+
+
+        for (UserVO userVO : multiCurrentUserList) {
+            String loginAcct = userVO.getLoginAcct();
+            // 如果是发送者
+            if(senderLoginAcct.equals(loginAcct)){
+                Record senderRecord = createRecord(message, Record.TYPE_ME,isPicture);
+                listLeftPushRecord(userVO.getLoginAcct(),senderRecord);
+
+            }else{ // 如果是接收者
+                Record toRecord = createRecord(message, Record.TYPE_YOU,isPicture);
+                listLeftPushRecord(userVO.getLoginAcct(),toRecord);
+            }
+        }
+
+        logger.info("多人聊天记录 "+message+" 插入成功");
+
+    }
+
+
+
 
 
 

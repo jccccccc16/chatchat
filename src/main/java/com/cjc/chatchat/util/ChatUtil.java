@@ -8,6 +8,9 @@ import com.cjc.chatchat.constant.ChatChatConstant;
 import com.cjc.chatchat.entity.SecurityUser;
 import com.cjc.chatchat.entity.UserPO;
 import com.cjc.chatchat.entity.UserVO;
+import com.cjc.chatchat.entity.ws.Message;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextImpl;
@@ -213,6 +216,20 @@ public class ChatUtil {
         SecurityUser loginUser = (SecurityUser) securityContextImpl.getAuthentication().getPrincipal();
         UserPO originalUser = loginUser.getOriginalUser();
         return originalUser;
+    }
+
+
+    public static Message stringToMessage(String message){
+        ObjectMapper objectMapper = new ObjectMapper();
+        Message msg = null;
+        try {
+            msg = objectMapper.readValue(message, Message.class);
+            return msg;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
 

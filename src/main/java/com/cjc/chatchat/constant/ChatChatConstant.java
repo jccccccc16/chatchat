@@ -26,4 +26,5 @@ public class ChatChatConstant {
 
     public static final Integer SET_USER_LOGIN = 1;
     public static final Integer SET_USER_LOGOUT = 0;
+    public static final String MESSAGE_USER_ENTER_MULTI_ROOM = "用户进入当前聊天室";
 }

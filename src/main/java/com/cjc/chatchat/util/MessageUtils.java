@@ -22,7 +22,7 @@ public class MessageUtils {
      */
     public static String getMessage(boolean isSystemMessage,
                                     boolean isPicture,
-                                    String type,
+                                    String type, // resultMessage中的常量
                                     UserVO fromUser,
                                     Object message){
         ResultMessage resultMessage = new ResultMessage();

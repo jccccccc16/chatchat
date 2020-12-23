@@ -32,6 +32,9 @@ public class ChatConfig implements WebMvcConfigurer {
         String loginViewName = "login";
         registry.addViewController(loginRegUrlPath).setViewName(loginViewName);
 
+        // 多人聊天页面
+        registry.addViewController("/multi.html").setViewName("multi");
+
 
     }
 

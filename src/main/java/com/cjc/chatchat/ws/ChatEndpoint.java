@@ -53,10 +53,10 @@ public class ChatEndpoint {
 
 
     // 主要用于排序，让好友列表有一个先后顺序
-    private static List<ChatEndpointUserMapper> onlineChatEndpointUserMapperList = Collections.synchronizedList(new ArrayList<>());
+    public static List<ChatEndpointUserMapper> onlineChatEndpointUserMapperList = Collections.synchronizedList(new ArrayList<>());
 
     //  为了方便查找用户,存储的数据与上面的list一样
-    private static Map<String, ChatEndpointUserMapper> onlineChatEndpointUserMapperMap = new ConcurrentHashMap<>();
+    public static Map<String, ChatEndpointUserMapper> onlineChatEndpointUserMapperMap = new ConcurrentHashMap<>();
 
 
     private Logger logger = LoggerFactory.getLogger(ChatEndpoint.class);
@@ -80,6 +80,8 @@ public class ChatEndpoint {
     public void setRedisUtil(RedisUtils redisUtil) {
         this.redisUtils = redisUtil;
     }
+
+
 
 
     /**
